@@ -1,0 +1,27 @@
+.current {
+  text-align: center;
+  padding-top: 90px;
+}
+
+.current h1 {
+  font-family: "Imprima", sans-serif;
+  color: rgba(0, 0, 0, 0.81);
+  font-size: 60px !important;
+}
+
+.current h2 {
+  font-family: "Passion One", cursive;
+  color: rgba(0, 0, 0, 0.81);
+  font-size: 100px !important;
+}
+
+.current h3 {
+  font-family: "Imprima", sans-serif;
+  font-size: 16px !important;
+}
+
+.current img {
+  height: 75px;
+  width: 75px;
+  padding: 65px;
+}

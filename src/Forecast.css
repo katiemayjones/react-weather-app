@@ -1,0 +1,13 @@
+.threeDayForecast {
+  text-align: center;
+  font-family: "Imprima", sans-serif;
+}
+
+.threeDayForecast h4 {
+  font-size: 16px !important;
+}
+
+.threeDayForecast img {
+  width: 50px;
+  height: 50px;
+}
