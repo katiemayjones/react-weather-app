@@ -1,22 +1,14 @@
 import "./App.css";
-import Weather from "./Weather";
+import CurrentCity from "./CurrentCity";
 import Forecast from "./Forecast";
+import Footer from "./Footer";
 
 function App() {
   return (
     <div className="App">
-      <Weather />
+      <CurrentCity />
       <Forecast />
-      <footer>
-        <p>
-          <a
-            href="https://github.com/katiemayjones/react-weather-app"
-            target="_blank"
-          >
-            Open source code by Katiemay
-          </a>
-        </p>
-      </footer>
+      <Footer />
     </div>
   );
 }

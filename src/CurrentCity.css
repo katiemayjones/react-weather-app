@@ -20,12 +20,6 @@
   font-size: 16px !important;
 }
 
-.current img {
-  height: 75px;
-  width: 75px;
-  padding: 65px;
-}
-
 .searchEngine {
   text-align: center;
   padding: 50px;
@@ -35,10 +29,26 @@
 
 .searchEngine button {
   border-radius: 9px;
+
   margin: 10px;
   padding: 7px;
-  background-color: #ff9900;
+  background: radial-gradient(
+    circle at 10% 20%,
+    rgb(255, 200, 124) 0%,
+    rgb(252, 251, 121) 90%
+  );
   border: 1px rgba(0, 0, 0, 0.81) solid;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   font-family: "Imprima", sans-serif;
   font-size: 16px !important;
+  transition-duration: 0.4s;
+}
+
+.searchEngine button:hover {
+  cursor: crosshair;
+  background: radial-gradient(
+    circle at 40% 70%,
+    rgb(255, 200, 124) 0%,
+    rgb(252, 251, 121) 90%
+  );
 }

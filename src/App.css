@@ -7,4 +7,6 @@
     url("./daytime-background.png"), lightgray 50%;
   background-repeat: no-repeat;
   background-size: cover;
+  max-width: fit-content;
+  margin: 0 auto;
 }
