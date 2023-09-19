@@ -2,11 +2,39 @@ import React, { useState } from "react";
 import axios from "axios";
 import Date from "./Date";
 import "./CurrentCity.css";
+import clearSkyIcon from "./images/clear-sky.png";
+import rainDayIcon from "./images/rain-day.png";
+import scatteredCloudsIcon from "./images/scattered-clouds.png";
+import showerRainIcon from "./images/shower-rain.png";
+import thunderstormIcon from "./images/thunderstorm.png";
+import snowIcon from "./images/snow.png";
+import mistyIcon from "./images/misty.png";
 
 export default function CurrentCity() {
   let [city, setCity] = useState("");
   let [temp, setTemp] = useState(null);
   let [description, setDescription] = useState("");
+
+  let weatherIcons = {
+    "clear-sky-day": clearSkyIcon,
+    "clear-sky-night": clearSkyIcon,
+    "few-clouds-day": scatteredCloudsIcon,
+    "few-clouds-night": scatteredCloudsIcon,
+    "scattered-clouds-day": scatteredCloudsIcon,
+    "scattered-clouds-night": scatteredCloudsIcon,
+    "broken-clouds-day": scatteredCloudsIcon,
+    "broken-clouds-night": scatteredCloudsIcon,
+    "shower-rain-day": showerRainIcon,
+    "shower-rain-night": showerRainIcon,
+    "rain-day": rainDayIcon,
+    "rain-night": rainDayIcon,
+    "thunderstorm-day": thunderstormIcon,
+    "thunderstorm-night": thunderstormIcon,
+    "snow-day": snowIcon,
+    "snow-night": snowIcon,
+    "mist-day": mistyIcon,
+    "mist-night": mistyIcon,
+  };
 
   function SubmitForm(event) {
     event.preventDefault();
@@ -21,7 +49,7 @@ export default function CurrentCity() {
 
     function ShowResults(response) {
       setTemp(Math.round(response.data.temperature.current));
-      setDescription(response.data.condition.icon_url);
+      setDescription(weatherIcons[response.data.condition.icon]);
     }
   }
 
@@ -29,9 +57,14 @@ export default function CurrentCity() {
     <div className="current">
       <div className="City">
         <h1>{city.charAt(0).toUpperCase() + city.slice(1)} </h1>
-        <Date /> 
+        <Date />
         <h2>{temp} °C</h2>
-        <img src={description} id="icon-current" width="70px" />
+        <img
+          src={description}
+          id="icon-current"
+          width="70px"
+          alt="Current Weather Icon"
+        />
         <h3>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</h3>
         <div className="searchEngine">
           <form onSubmit={SubmitForm}>
