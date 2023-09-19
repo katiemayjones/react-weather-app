@@ -1,7 +1,7 @@
 import "./App.css";
 import CurrentCity from "./CurrentCity";
-import Forecast from "./Forecast";
 import Footer from "./Footer";
+import Forecast from "./Forecast";
 
 function App() {
   return (

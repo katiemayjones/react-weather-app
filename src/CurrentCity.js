@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Date from "./Date";
+import Forecast from "./Forecast";
 import "./CurrentCity.css";
 import clearSkyIcon from "./images/clear-sky.png";
 import rainDayIcon from "./images/rain-day.png";
@@ -14,6 +15,7 @@ export default function CurrentCity() {
   let [city, setCity] = useState("");
   let [temp, setTemp] = useState(null);
   let [description, setDescription] = useState("");
+  let [cityValue, setCityValue] = useState("");
 
   let weatherIcons = {
     "clear-sky-day": clearSkyIcon,
@@ -41,6 +43,7 @@ export default function CurrentCity() {
     let cityValue = document.querySelector("#city-value").value;
 
     setCity(cityValue);
+    setCityValue(cityValue); //
 
     let apiKey = `e70e93a38oe24fbbd3ata4d913b05868`;
     let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${cityValue}&key=${apiKey}&units=metric`;
@@ -51,8 +54,12 @@ export default function CurrentCity() {
       setTemp(Math.round(response.data.temperature.current));
       setDescription(weatherIcons[response.data.condition.icon]);
     }
+
+    console.log(cityValue);
+    Forecast({ cityValue });
   }
 
+  console.log(description);
   return (
     <div className="current">
       <div className="City">
@@ -62,7 +69,7 @@ export default function CurrentCity() {
         <img
           src={description}
           id="icon-current"
-          width="70px"
+          width="100px"
           alt="Current Weather Icon"
         />
         <h3>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</h3>
