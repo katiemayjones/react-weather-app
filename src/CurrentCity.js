@@ -15,7 +15,6 @@ export default function CurrentCity() {
   let [temp, setTemp] = useState(null);
   let [description, setDescription] = useState("");
   let [icon, setIcon] = useState("");
-  let [cityValue, setCityValue] = useState("");
 
   let weatherIcons = {
     "clear-sky-day": clearSkyIcon,
@@ -44,7 +43,6 @@ export default function CurrentCity() {
     let cityValue = document.querySelector("#city-value").value;
 
     setCity(cityValue);
-    setCityValue(cityValue); //
 
     let apiKey = `e70e93a38oe24fbbd3ata4d913b05868`;
     let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${cityValue}&key=${apiKey}&units=metric`;
@@ -61,7 +59,7 @@ export default function CurrentCity() {
   }
 
   console.log(description);
-  if (weatherData == false) {
+  if (weatherData === false) {
     return (
       <div className="current">
         <div className="City">
