@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Date from "./Date";
-import Forecast from "./Forecast";
 import "./CurrentCity.css";
 import clearSkyIcon from "./images/clear-sky.png";
 import rainDayIcon from "./images/rain-day.png";
@@ -12,6 +10,7 @@ import snowIcon from "./images/snow.png";
 import mistyIcon from "./images/misty.png";
 
 export default function CurrentCity() {
+  let [weatherData, setWeatherData] = useState(false);
   let [city, setCity] = useState("");
   let [temp, setTemp] = useState(null);
   let [description, setDescription] = useState("");
@@ -40,6 +39,7 @@ export default function CurrentCity() {
 
   function SubmitForm(event) {
     event.preventDefault();
+    setWeatherData(true);
     let cityValue = document.querySelector("#city-value").value;
 
     setCity(cityValue);
@@ -56,37 +56,60 @@ export default function CurrentCity() {
     }
 
     console.log(cityValue);
-    Forecast({ cityValue });
   }
 
   console.log(description);
-  return (
-    <div className="current">
-      <div className="City">
-        <h1>{city.charAt(0).toUpperCase() + city.slice(1)} </h1>
-        <Date />
-        <h2>{temp} °C</h2>
-        <img
-          src={description}
-          id="icon-current"
-          width="100px"
-          alt="Current Weather Icon"
-        />
-        <h3>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</h3>
-        <div className="searchEngine">
-          <form onSubmit={SubmitForm}>
-            <input
-              type="text"
-              id="city-value"
-              name="city"
-              placeholder="Enter a city"
-            />
-            <button type="submit" className="search">
-              Search
-            </button>
-          </form>
+  if (weatherData == false) {
+    return (
+      <div className="current">
+        <div className="City">
+          <h1>Loading...</h1>
+
+          <h3>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</h3>
+          <div className="searchEngine">
+            <form onSubmit={SubmitForm}>
+              <input
+                type="text"
+                id="city-value"
+                name="city"
+                placeholder="Enter a city"
+              />
+              <button type="submit" className="search">
+                Search
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div className="current">
+        <div className="City">
+          <h1>{city.charAt(0).toUpperCase() + city.slice(1)} </h1>
+          <h2>{temp} °C</h2>
+          <img
+            src={description}
+            id="icon-current"
+            width="100px"
+            alt="Current Weather Icon"
+          />
+          <h3>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</h3>
+          <div className="searchEngine">
+            <form onSubmit={SubmitForm}>
+              <input
+                type="text"
+                id="city-value"
+                name="city"
+                placeholder="Enter a city"
+              />
+              <button type="submit" className="search">
+                Search
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
