@@ -14,6 +14,7 @@ export default function CurrentCity() {
   let [city, setCity] = useState("");
   let [temp, setTemp] = useState(null);
   let [description, setDescription] = useState("");
+  let [icon, setIcon] = useState("");
   let [cityValue, setCityValue] = useState("");
 
   let weatherIcons = {
@@ -52,7 +53,8 @@ export default function CurrentCity() {
 
     function ShowResults(response) {
       setTemp(Math.round(response.data.temperature.current));
-      setDescription(weatherIcons[response.data.condition.icon]);
+      setIcon(weatherIcons[response.data.condition.icon]);
+      setDescription(response.data.condition.description);
     }
 
     console.log(cityValue);
@@ -87,13 +89,15 @@ export default function CurrentCity() {
       <div className="current">
         <div className="City">
           <h1>{city.charAt(0).toUpperCase() + city.slice(1)} </h1>
+          <h3>Wednesday 20th September 2023</h3>
           <h2>{temp} °C</h2>
           <img
-            src={description}
+            src={icon}
             id="icon-current"
             width="100px"
             alt="Current Weather Icon"
           />
+          <h3>{description.charAt(0).toUpperCase() + description.slice(1)}</h3>
           <h3>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</h3>
           <div className="searchEngine">
             <form onSubmit={SubmitForm}>
