@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./CurrentCity.css";
+import FormatDate from "./FormatDate";
 import clearSkyIcon from "./images/clear-sky.png";
 import rainDayIcon from "./images/rain-day.png";
 import scatteredCloudsIcon from "./images/scattered-clouds.png";
@@ -15,6 +16,7 @@ export default function CurrentCity() {
   let [temp, setTemp] = useState(null);
   let [description, setDescription] = useState("");
   let [icon, setIcon] = useState("");
+  let [date, setDate] = useState("");
 
   let weatherIcons = {
     "clear-sky-day": clearSkyIcon,
@@ -53,12 +55,18 @@ export default function CurrentCity() {
       setTemp(Math.round(response.data.temperature.current));
       setIcon(weatherIcons[response.data.condition.icon]);
       setDescription(response.data.condition.description);
-    }
 
-    console.log(cityValue);
+      let currentDate = new Date(response.data.time * 1000);
+
+      console.log(currentDate);
+      setDate(currentDate);
+
+      console.log(date);
+
+      FormatDate({ currentDate });
+    }
   }
 
-  console.log(description);
   if (weatherData === false) {
     return (
       <div className="current">
@@ -87,7 +95,7 @@ export default function CurrentCity() {
       <div className="current">
         <div className="City">
           <h1>{city.charAt(0).toUpperCase() + city.slice(1)} </h1>
-          <h3>Wednesday 20th September 2023</h3>
+          <FormatDate />
           <h2>{temp} °C</h2>
           <img
             src={icon}
