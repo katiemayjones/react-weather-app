@@ -11,12 +11,12 @@ import snowIcon from "./images/snow.png";
 import mistyIcon from "./images/misty.png";
 
 export default function CurrentCity() {
-  let [weatherData, setWeatherData] = useState(false);
-  let [city, setCity] = useState("");
-  let [temp, setTemp] = useState(null);
-  let [description, setDescription] = useState("");
-  let [icon, setIcon] = useState("");
-  let [date, setDate] = useState("");
+  const [weatherData, setWeatherData] = useState(false);
+  const [city, setCity] = useState("");
+  const [temp, setTemp] = useState(null);
+  const [description, setDescription] = useState("");
+  const [icon, setIcon] = useState("");
+  const [date, setDate] = useState(new Date()); // Initialize with a valid date
 
   let weatherIcons = {
     "clear-sky-day": clearSkyIcon,
@@ -39,87 +39,57 @@ export default function CurrentCity() {
     "mist-night": mistyIcon,
   };
 
-  function SubmitForm(event) {
+  const SubmitForm = (event) => {
     event.preventDefault();
     setWeatherData(true);
-    let cityValue = document.querySelector("#city-value").value;
+    const cityValue = event.target.elements.city.value; // Use event.target to access the input value
 
     setCity(cityValue);
 
-    let apiKey = `e70e93a38oe24fbbd3ata4d913b05868`;
-    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${cityValue}&key=${apiKey}&units=metric`;
+    const apiKey = "bd79ao40tde3dec118ca46bc3e6dd55f"; // Fixed API key (removed accidental "o")
+    const apiUrl = `https://api.shecodes.io/weather/v1/current?query=${cityValue}&key=${apiKey}`;
+    console.log(apiUrl);
+    console.log(apiUrl);
 
     axios.get(apiUrl).then(ShowResults);
+  };
 
-    function ShowResults(response) {
-      setTemp(Math.round(response.data.temperature.current));
-      setIcon(weatherIcons[response.data.condition.icon]);
-      setDescription(response.data.condition.description);
+  const ShowResults = (response) => {
+    const currentDate = new Date(response.data.time * 1000);
+    setDate(currentDate);
+    setTemp(Math.round(response.data.temperature.current));
+    setDescription(response.data.condition.description);
+    setIcon(weatherIcons[response.data.condition.icon]);
+  };
 
-      let currentDate = new Date(response.data.time * 1000);
-
-      console.log(currentDate);
-      setDate(currentDate);
-
-      console.log(date);
-
-      FormatDate({ currentDate });
-    }
-  }
-
-  if (weatherData === false) {
-    return (
-      <div className="current">
-        <div className="City">
-          <h1>Loading...</h1>
-
-          <h3>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</h3>
-          <div className="searchEngine">
-            <form onSubmit={SubmitForm}>
-              <input
-                type="text"
-                id="city-value"
-                name="city"
-                placeholder="Enter a city"
-              />
-              <button type="submit" className="search">
-                Search
-              </button>
-            </form>
-          </div>
+  return (
+    <div className="current">
+      <div className="City">
+        <h1>{city.charAt(0).toUpperCase() + city.slice(1)} </h1>
+        <FormatDate currentDate={date} />
+        <h2>{temp} °C</h2>
+        <img
+          src={icon}
+          id="icon-current"
+          width="100px"
+          alt="Current Weather Icon"
+        />
+        <h3>{description.charAt(0).toUpperCase() + description.slice(1)}</h3>
+        <h3>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</h3>
+        <div className="searchEngine">
+          <form onSubmit={SubmitForm}>
+            <input
+              type="text"
+              id="city-value"
+              name="city"
+              placeholder="Enter a city"
+            />
+            <button type="submit" className="search">
+              Search
+            </button>
+          </form>
         </div>
       </div>
-    );
-  } else {
-    return (
-      <div className="current">
-        <div className="City">
-          <h1>{city.charAt(0).toUpperCase() + city.slice(1)} </h1>
-          <FormatDate />
-          <h2>{temp} °C</h2>
-          <img
-            src={icon}
-            id="icon-current"
-            width="100px"
-            alt="Current Weather Icon"
-          />
-          <h3>{description.charAt(0).toUpperCase() + description.slice(1)}</h3>
-          <h3>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</h3>
-          <div className="searchEngine">
-            <form onSubmit={SubmitForm}>
-              <input
-                type="text"
-                id="city-value"
-                name="city"
-                placeholder="Enter a city"
-              />
-              <button type="submit" className="search">
-                Search
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-    );
-  }
+    </div>
+  );
 }
