@@ -11,7 +11,7 @@ import snowIcon from "./images/snow.png";
 import mistyIcon from "./images/misty.png";
 
 export default function CurrentCity() {
-  const [weatherData, setWeatherData] = useState(false);
+  let [weatherData, setWeatherData] = useState(false);
   const [city, setCity] = useState("");
   const [temp, setTemp] = useState(null);
   const [description, setDescription] = useState("");
@@ -62,34 +62,62 @@ export default function CurrentCity() {
     setIcon(weatherIcons[response.data.condition.icon]);
   };
 
-  return (
-    <div className="current">
-      <div className="City">
-        <h1>{city.charAt(0).toUpperCase() + city.slice(1)} </h1>
-        <FormatDate currentDate={date} />
-        <h2>{temp} °C</h2>
-        <img
-          src={icon}
-          id="icon-current"
-          width="100px"
-          alt="Current Weather Icon"
-        />
-        <h3>{description.charAt(0).toUpperCase() + description.slice(1)}</h3>
-        <h3>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</h3>
-        <div className="searchEngine">
-          <form onSubmit={SubmitForm}>
-            <input
-              type="text"
-              id="city-value"
-              name="city"
-              placeholder="Enter a city"
-            />
-            <button type="submit" className="search">
-              Search
-            </button>
-          </form>
+  if (weatherData === false) {
+    return (
+      <div className="current">
+        <div className="City">
+          <h1>{city.charAt(0).toUpperCase() + city.slice(1)} </h1>
+          <FormatDate currentDate={date} />
+          <h2>{temp} °C</h2>
+
+          <h3>{description.charAt(0).toUpperCase() + description.slice(1)}</h3>
+          <h3>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</h3>
+          <div className="searchEngine">
+            <form onSubmit={SubmitForm}>
+              <input
+                type="text"
+                id="city-value"
+                name="city"
+                placeholder="Enter a city"
+              />
+              <button type="submit" className="search">
+                Search
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div className="current">
+        <div className="City">
+          <h1>{city.charAt(0).toUpperCase() + city.slice(1)} </h1>
+          <FormatDate currentDate={date} />
+          <h2>{temp} °C</h2>
+          <img
+            src={icon}
+            id="icon-current"
+            width="100px"
+            alt="Current Weather Icon"
+          />
+          <h3>{description.charAt(0).toUpperCase() + description.slice(1)}</h3>
+          <h3>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _</h3>
+          <div className="searchEngine">
+            <form onSubmit={SubmitForm}>
+              <input
+                type="text"
+                id="city-value"
+                name="city"
+                placeholder="Enter a city"
+              />
+              <button type="submit" className="search">
+                Search
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
