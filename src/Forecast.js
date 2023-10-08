@@ -32,12 +32,15 @@ export default function Forecast(props) {
   };
   let [dayOneIcon, setDayOneIcon] = useState("");
   let [dayOneTemp, setDayOneTemp] = useState(null);
+  let [dayOneDesc, setDayOneDesc] = useState("");
 
   let [dayTwoIcon, setDayTwoIcon] = useState("");
   let [dayTwoTemp, setDayTwoTemp] = useState(null);
+  let [dayTwoDesc, setDayTwoDesc] = useState("");
 
   let [dayThreeIcon, setDayThreeIcon] = useState("");
   let [dayThreeTemp, setDayThreeTemp] = useState(null);
+  let [dayThreeDesc, setDayThreeDesc] = useState("");
 
   const apiKey = "bd79ao40tde3dec118ca46bc3e6dd55f";
   let long = props.coordinates.longitude;
@@ -49,12 +52,15 @@ export default function Forecast(props) {
   function displayForecast(response) {
     setDayOneTemp(Math.round(response.data.daily[0].temperature.day));
     setDayOneIcon(weatherIcons[response.data.daily[0].condition.icon]);
+    setDayOneDesc(response.data.daily[0].condition.description);
 
     setDayTwoTemp(Math.round(response.data.daily[1].temperature.day));
     setDayTwoIcon(weatherIcons[response.data.daily[1].condition.icon]);
+    setDayTwoDesc(response.data.daily[1].condition.description);
 
     setDayThreeTemp(Math.round(response.data.daily[2].temperature.day));
     setDayThreeIcon(weatherIcons[response.data.daily[2].condition.icon]);
+    setDayThreeDesc(response.data.daily[1].condition.description);
   }
   return (
     <div className="threeDayForecast">
@@ -67,6 +73,7 @@ export default function Forecast(props) {
               width="50px"
               alt="Day One Weather Icon"
             />{" "}
+            <h4 class="forecastD">{dayOneDesc}</h4>
             <h4>{dayOneTemp}°C</h4>
           </div>
           <div className="col">
@@ -76,6 +83,7 @@ export default function Forecast(props) {
               width="50px"
               alt="Day One Weather Icon"
             ></img>{" "}
+            <h4 class="forecastD">{dayTwoDesc}</h4>
             <h4>{dayTwoTemp}°C</h4>
           </div>
           <div className="col">
@@ -85,6 +93,7 @@ export default function Forecast(props) {
               width="50px"
               alt="Day One Weather Icon"
             ></img>{" "}
+            <h4 class="forecastD">{dayThreeDesc}</h4>
             <h4>{dayThreeTemp}°C</h4>
           </div>
         </div>
