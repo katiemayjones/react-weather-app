@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./CurrentCity.css";
 import FormatDate from "./FormatDate";
+import Forecast from "./Forecast";
 import clearSkyIcon from "./images/clear-sky.png";
 import rainDayIcon from "./images/rain-day.png";
 import scatteredCloudsIcon from "./images/scattered-clouds.png";
@@ -16,7 +17,8 @@ export default function CurrentCity() {
   const [temp, setTemp] = useState(null);
   const [description, setDescription] = useState("");
   const [icon, setIcon] = useState("");
-  const [date, setDate] = useState(new Date()); // Initialize with a valid date
+  const [date, setDate] = useState(new Date());
+  const [coordinates, setCoordinates] = useState("");
 
   let weatherIcons = {
     "clear-sky-day": clearSkyIcon,
@@ -42,14 +44,12 @@ export default function CurrentCity() {
   const SubmitForm = (event) => {
     event.preventDefault();
     setWeatherData(true);
-    const cityValue = event.target.elements.city.value; // Use event.target to access the input value
+    const cityValue = event.target.elements.city.value;
 
     setCity(cityValue);
 
-    const apiKey = "bd79ao40tde3dec118ca46bc3e6dd55f"; // Fixed API key (removed accidental "o")
+    const apiKey = "bd79ao40tde3dec118ca46bc3e6dd55f";
     const apiUrl = `https://api.shecodes.io/weather/v1/current?query=${cityValue}&key=${apiKey}`;
-    console.log(apiUrl);
-    console.log(apiUrl);
 
     axios.get(apiUrl).then(ShowResults);
   };
@@ -60,6 +60,8 @@ export default function CurrentCity() {
     setTemp(Math.round(response.data.temperature.current));
     setDescription(response.data.condition.description);
     setIcon(weatherIcons[response.data.condition.icon]);
+    setCoordinates(response.data.coordinates);
+
   };
 
   if (weatherData === false) {
@@ -83,6 +85,7 @@ export default function CurrentCity() {
               <button type="submit" className="search">
                 Search
               </button>
+              
             </form>
           </div>
         </div>
@@ -115,6 +118,8 @@ export default function CurrentCity() {
                 Search
               </button>
             </form>
+        
+            <Forecast coordinates={coordinates} />
           </div>
         </div>
       </div>

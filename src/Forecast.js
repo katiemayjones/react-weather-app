@@ -1,91 +1,94 @@
-// import React, { useState } from "react";
-// import axios from "axios";
-// import "./Forecast.css";
-// import clearSkyIcon from "./images/clear-sky.png";
-// import rainDayIcon from "./images/rain-day.png";
-// import scatteredCloudsIcon from "./images/scattered-clouds.png";
-// import showerRainIcon from "./images/shower-rain.png";
-// import thunderstormIcon from "./images/thunderstorm.png";
-// import snowIcon from "./images/snow.png";
-// import mistyIcon from "./images/misty.png";
+import React, { useState } from "react";
+import axios from "axios";
+import "./Forecast.css";
+import clearSkyIcon from "./images/clear-sky.png";
+import rainDayIcon from "./images/rain-day.png";
+import scatteredCloudsIcon from "./images/scattered-clouds.png";
+import showerRainIcon from "./images/shower-rain.png";
+import thunderstormIcon from "./images/thunderstorm.png";
+import snowIcon from "./images/snow.png";
+import mistyIcon from "./images/misty.png";
 
-// export default function Forecast(props) {
-//   let cityValue = props.cityValue;
-//   if (!cityValue) {
-//     return <div>Three day forecast</div>;
-//   } else {
-//     ReturnForecast(cityValue);
+export default function Forecast(props) {
+  let weatherIcons = {
+    "clear-sky-day": clearSkyIcon,
+    "clear-sky-night": clearSkyIcon,
+    "few-clouds-day": scatteredCloudsIcon,
+    "few-clouds-night": scatteredCloudsIcon,
+    "scattered-clouds-day": scatteredCloudsIcon,
+    "scattered-clouds-night": scatteredCloudsIcon,
+    "broken-clouds-day": scatteredCloudsIcon,
+    "broken-clouds-night": scatteredCloudsIcon,
+    "shower-rain-day": showerRainIcon,
+    "shower-rain-night": showerRainIcon,
+    "rain-day": rainDayIcon,
+    "rain-night": rainDayIcon,
+    "thunderstorm-day": thunderstormIcon,
+    "thunderstorm-night": thunderstormIcon,
+    "snow-day": snowIcon,
+    "snow-night": snowIcon,
+    "mist-day": mistyIcon,
+    "mist-night": mistyIcon,
+  };
+  let [dayOneIcon, setDayOneIcon] = useState("");
+  let [dayOneTemp, setDayOneTemp] = useState(null);
 
-//     function ReturnForecast(response) {
-//       let apiKey = `e70e93a38oe24fbbd3ata4d913b05868`;
-//       let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${cityValue}&key=${apiKey}`;
+  let [dayTwoIcon, setDayTwoIcon] = useState("");
+  let [dayTwoTemp, setDayTwoTemp] = useState(null);
 
-//       axios.get(apiUrl).then(ReturnForecast);
-//       let [dayOne, setDayOne] = useState("");
-//       let [dayOneTemp, setDayOneTemp] = useState(null);
+  let [dayThreeIcon, setDayThreeIcon] = useState("");
+  let [dayThreeTemp, setDayThreeTemp] = useState(null);
 
+  const apiKey = "bd79ao40tde3dec118ca46bc3e6dd55f";
+  let long = props.coordinates.longitude;
+  let lat = props.coordinates.latitude;
 
-//       // need to move the function actions so that there is a seperate function for the api call and then the response from the api.
-//       let weatherIcons = {
-//         "clear-sky-day": clearSkyIcon,
-//         "clear-sky-night": clearSkyIcon,
-//         "few-clouds-day": scatteredCloudsIcon,
-//         "few-clouds-night": scatteredCloudsIcon,
-//         "scattered-clouds-day": scatteredCloudsIcon,
-//         "scattered-clouds-night": scatteredCloudsIcon,
-//         "broken-clouds-day": scatteredCloudsIcon,
-//         "broken-clouds-night": scatteredCloudsIcon,
-//         "shower-rain-day": showerRainIcon,
-//         "shower-rain-night": showerRainIcon,
-//         "rain-day": rainDayIcon,
-//         "rain-night": rainDayIcon,
-//         "thunderstorm-day": thunderstormIcon,
-//         "thunderstorm-night": thunderstormIcon,
-//         "snow-day": snowIcon,
-//         "snow-night": snowIcon,
-//         "mist-day": mistyIcon,
-//         "mist-night": mistyIcon,
-//       };
-//       // let dayTwo = response.data.daily[1].condition.icon;
-//       // let dayThree = response.data.daily[2].condition.icon;
+  const apiUrl = `https://api.shecodes.io/weather/v1/forecast?lon=${long}&lat=${lat}&key=${apiKey}`;
+  axios.get(apiUrl).then(displayForecast);
 
-//       // let dayTwoTemp = response.data.daily[1].temperature.day;
-//       // let dayThreeTemp = response.data.daily[2].temperature.day;
+  function displayForecast(response) {
+    setDayOneTemp(Math.round(response.data.daily[0].temperature.day));
+    setDayOneIcon(weatherIcons[response.data.daily[0].condition.icon]);
 
-//       console.log(response);
-//       console.log(response.data.daily);
-//       console.log(response.data.daily[0]);
+    setDayTwoTemp(Math.round(response.data.daily[1].temperature.day));
+    setDayTwoIcon(weatherIcons[response.data.daily[1].condition.icon]);
 
-//       setDayOne(weatherIcons[response.data.daily[0].condition.icon]);
-//       setDayOneTemp(response.data.daily[0].temperature.day);
-
-//       console.log(dayOne);
-//       return (
-//         <div className="threeDayForecast">
-//           <div className="container">
-//             <div className="row">
-//               <div className="col">
-//                 <h4>Day</h4>
-//                 <img
-//                   src="./images/misty.png"
-//                   id="icon-day-one"
-//                   width="70px"
-//                   alt="Day One Weather Icon"
-//                 />{" "}
-//                 <h4>{dayOneTemp}</h4>
-//               </div>
-//               <div className="col">
-//                 <h4>Wed</h4>
-//                 <img src="" alt="forecast2"></img>
-//               </div>
-//               <div className="col">
-//                 <h4>Thurs</h4>
-//                 <img src="" alt="forecast3"></img>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       );
-//     }
-//   }
-// }
+    setDayThreeTemp(Math.round(response.data.daily[2].temperature.day));
+    setDayThreeIcon(weatherIcons[response.data.daily[2].condition.icon]);
+  }
+  return (
+    <div className="threeDayForecast">
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <img
+              src={dayOneIcon}
+              id="icon-day-one"
+              width="50px"
+              alt="Day One Weather Icon"
+            />{" "}
+            <h4>{dayOneTemp}°C</h4>
+          </div>
+          <div className="col">
+            <img
+              src={dayTwoIcon}
+              id="icon-day-one"
+              width="50px"
+              alt="Day One Weather Icon"
+            ></img>{" "}
+            <h4>{dayTwoTemp}°C</h4>
+          </div>
+          <div className="col">
+            <img
+              src={dayThreeIcon}
+              id="icon-day-one"
+              width="50px"
+              alt="Day One Weather Icon"
+            ></img>{" "}
+            <h4>{dayThreeTemp}°C</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

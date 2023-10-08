@@ -15,7 +15,6 @@ export default function FormatDate(props) {
 
   let day = days[props.currentDate.getDay()];
 
-  console.log(day);
   let dateN = props.currentDate.getDate();
   let month = props.currentDate.toLocaleString("en-GB", { month: "long" });
   let year = props.currentDate.getFullYear();
